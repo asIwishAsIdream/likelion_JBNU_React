@@ -2,7 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
+// 객체 인자를 받은 후 React 엘리먼트를 반환하므로 유효한 React 컴포넌트입니다. 이러한 컴포넌트는 JavaScript 함수이기 때문에 말 그대로 “함수 컴포넌트”
+
+
 // 여기서 props가 어떻게 전달되는 것인지?
+// props는 속성을 나타내는 데이터
 function Square(props) {
     return (
         <button className='square' onClick={props.onClick}>
@@ -16,6 +20,7 @@ function Square(props) {
 class Board extends React.Component {
     constructor(props) {
         super(props);
+        // this 는 컴포넌트 인스턴스를 가르켜야 함
         this.state = {
             squares: Array(9).fill(null),
             xIsNext: true,
@@ -28,6 +33,8 @@ class Board extends React.Component {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
+        // State는 props와 유사하지만, 비공개이며 컴포넌트에 의해 완전히 제어됩니다.
+        // 컴포넌트 로컬 state를 업데이트하기 위해 this.setState()를 사용
         this.setState({
             squares: squares,
             xIsNext: !this.state.xIsNext,
