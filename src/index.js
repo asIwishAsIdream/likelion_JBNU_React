@@ -59,6 +59,10 @@ class Game extends React.Component {
         this.state = {
             history: [{
                 squares: Array(9).fill(null),
+                position: { // position 추가
+                    x: null,
+                    y: null,
+                }
             }],
             stepNumber: 0,
             xIsNext: true,
@@ -76,6 +80,10 @@ class Game extends React.Component {
         this.setState({
             history: history.concat([{
                 squares: squares,
+                position: { //클릭 시 x, y 정의
+                    x: parseInt(i / 3) + 1,
+                    y: i % 3 + 1,
+                }
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
@@ -96,8 +104,10 @@ class Game extends React.Component {
         const winner = calculateWinner(current.squares);
 
         const moves = history.map((step, move) => {
+            // step은 map 함수의 콜백 함수에서 사용되는 매개변수입니다. 이 콜백 함수는 history 배열의 각 요소에 대해 실행됩니다. 따라서 step은 history 배열의 각 요소를 나타내는 객체입니다.
+            console.log(typeof (step));
             const desc = move ?
-                'Go to move #' + move :
+                'Go to move #' + move + " X : " + step.position.x + " Y : " + step.position.y :
                 'Go to game start';
             return (
                 <li key={move}>
