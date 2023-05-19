@@ -20,7 +20,7 @@ function Square(props) {
 
 class Board extends React.Component {
 
-    renderSquare(i) {
+    renderSquare(i) {    
         return (
             <Square value={this.props.squares[i]}
                 // Board에서 Square로 onClick={() => this.handleClick(i)}를 전달했기 때문에 Square를 클릭하면 Board의 handleClick(i)를 호출
@@ -29,24 +29,27 @@ class Board extends React.Component {
         );
     }
 
-    // 언제 실행되는 건가요>?
+    renderSquareFor(){
+        for (let index = 0; index < 3; index++) {
+            for (let index2 = 0; index2 < 3; index2++) {
+                this.renderSquare(index+index2)
+            }
+        }
+    }
+
     render() {
         return (
             <div>
                 <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
+                    {this.renderSquareFor()}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
+                   
                 </div>
                 <div className="board-row">
                     {this.renderSquare(6)}
                     {this.renderSquare(7)}
-                    {this.renderSquare(8)}
+                   
                 </div>
             </div>
         );
