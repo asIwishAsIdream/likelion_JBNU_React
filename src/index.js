@@ -66,6 +66,7 @@ class Game extends React.Component {
             }],
             stepNumber: 0,
             xIsNext: true,
+            isAscending :true, // 정렬을 구분하기 위한 변수
         };
     }
 
@@ -97,11 +98,16 @@ class Game extends React.Component {
         });
     }
 
+    handleSortBtn(){ // 정렬 버튼 눌렀을 때 동작
+        this.setState({isAscending:!this.state.isAscending});
+    }
+
     render() {
         // Game 컴포넌트의 render 함수를 가장 최근 기록을 사용하도록 업데이트하여 게임의 상태를 확인하고 표시하겠습니다.
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
+        const isAscending = this.state.isAscending;
 
         const moves = history.map((step, move) => {
             // step은 map 함수의 콜백 함수에서 사용되는 매개변수입니다. 이 콜백 함수는 history 배열의 각 요소에 대해 실행됩니다. 따라서 step은 history 배열의 각 요소를 나타내는 객체입니다.
@@ -115,6 +121,19 @@ class Game extends React.Component {
                 </li>
             );
         });
+
+        // 정렬에 대한 내용
+        if(!isAscending){
+            moves.reverse();
+        }
+        const sortBtnText = isAscending?"내림차순으로":"오름차순으로";
+        const sortBtn = (
+            <button onClick={()=>this.handleSortBtn()}>
+                {sortBtnText}
+            </button>
+        );
+
+
 
         let status;
         if (winner) {
@@ -136,6 +155,7 @@ class Game extends React.Component {
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
+                    <div>{sortBtn}</div>
                     <ol>{moves}</ol>
                 </div>
             </div>
