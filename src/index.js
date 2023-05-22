@@ -19,34 +19,34 @@ function Square(props) {
 
 
 class Board extends React.Component {
-
+    
     renderSquare(i) {
         return (
-            <Square value={this.props.squares[i]}
-                // Board에서 Square로 onClick={() => this.handleClick(i)}를 전달했기 때문에 Square를 클릭하면 Board의 handleClick(i)를 호출
-                onClick={() => this.props.onClick(i)}
-            />
+          <Square
+            key={i} // 이 키값이 없으면 자꾸 에러같은게 뜬다.
+            value={this.props.squares[i]}
+            // Board에서 Square로 onClick={() => this.handleClick(i)}를 전달했기 때문에 Square를 클릭하면 Board의 handleClick(i)를 호출
+            onClick={() => {this.props.onClick(i);}}
+          />
         );
-    }
+      }
 
-    // 언제 실행되는 건가요>?
+
     render() {
+        const boardRow=[];
+        let k=0;
+        for (let i = 0; i < 3;i++){
+        const squares = [];
+            for (let j = 0; j < 3; j++){
+                squares.push(this.renderSquare( i * 3 + j ));
+                k++;
+            }
+        boardRow.push(<div key={k} className="board-row">{squares}</div>)
+        }
         return (
             <div>
                 <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
+                    {boardRow}
                 </div>
             </div>
         );
@@ -120,7 +120,11 @@ class Game extends React.Component {
         if (winner) {
             status = 'Winner: ' + winner;
         } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+            if (this.state.stepNumber == 9) {
+                status = "무승부"
+            } else{
+                status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+            }
         }
         return (
             <div className="game">
